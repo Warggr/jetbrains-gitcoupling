@@ -93,12 +93,12 @@ def create_developer_pair_dataset(repo: Repo, count: str) -> pd.DataFrame:
         value / (total_per_user[user1Name] + total_per_user[user2Name] - value)
         for value, user1Name, user2Name in zip(dataset[relevant_value], dataset['User 1'], dataset['User 2'])
     ]
-    # Size - percentage geometric average metric
-    dataset['geo_avg'] = [
+    # Product metric
+    dataset['product'] = [
         (value ** 2) / (total_per_user[user1Name] + total_per_user[user2Name] - value)
         for value, user1Name, user2Name in zip(dataset[relevant_value], dataset['User 1'], dataset['User 2'])
     ]
-    dataset = dataset.sort_values(by='geo_avg')
+    dataset = dataset.sort_values(by='product', ascending=False)
 
     dataset.style.format({'% User 1': "{:.2%}".format, '% User 2': "{:.2%}".format})
     return dataset
